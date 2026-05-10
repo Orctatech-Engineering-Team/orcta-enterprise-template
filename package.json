@@ -18,8 +18,9 @@
     ],
     "packageManager": "pnpm@10.0.0",
     "devDependencies": {
-        "@types/inquirer": "^9.0.9",
-        "inquirer": "^13.4.3",
         "turbo": "^2.9.6"
+    },
+    "dependencies": {
+        "@inquirer/prompts": "^8.4.3"
     }
 }

@@ -1,6 +1,6 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
-import inquirer from "inquirer";
+import { input } from "@inquirer/prompts";
 
 const TEMPLATES_DIR = path.resolve(import.meta.dirname, "templates");
 const BACKEND_SRC = path.resolve(import.meta.dirname, "../..", "apps/backend/src");
@@ -83,29 +83,21 @@ const TEMPLATES: TemplateFile[] = [
 ];
 
 async function main() {
-  const answers = await inquirer.prompt<{ context: string; entity: string }>([
-    {
-      type: "input",
-      name: "context",
-      message: "Context name (kebab-case, e.g. dispatch):",
-      validate: (input: string) => {
-        const valid = /^[a-z][a-z0-9-]*$/.test(input);
-        return valid || "Must be lowercase with optional hyphens (e.g. dispatch)";
-      },
+  const context = await input({
+    message: "Context name (kebab-case, e.g. dispatch):",
+    validate: (value: string) => {
+      const valid = /^[a-z][a-z0-9-]*$/.test(value);
+      return valid || "Must be lowercase with optional hyphens (e.g. dispatch)";
     },
-    {
-      type: "input",
-      name: "entity",
-      message: "Entity name (PascalCase, e.g. Rider):",
-      validate: (input: string) => {
-        const valid = /^[A-Z][a-zA-Z0-9]*$/.test(input);
-        return valid || "Must start with uppercase letter, no spaces (e.g. Rider)";
-      },
-    },
-  ]);
+  });
 
-  const context = answers.context;
-  const entity = answers.entity;
+  const entity = await input({
+    message: "Entity name (PascalCase, e.g. Rider):",
+    validate: (value: string) => {
+      const valid = /^[A-Z][a-zA-Z0-9]*$/.test(value);
+      return valid || "Must start with uppercase letter, no spaces (e.g. Rider)";
+    },
+  });
   const vars: Record<string, string> = {
     context,
     Context: toPascalCase(context),
