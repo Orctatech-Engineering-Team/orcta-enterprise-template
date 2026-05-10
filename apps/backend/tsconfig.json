@@ -1,0 +1,63 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "ES2023",
+    "lib": ["ES2023", "DOM"],
+    "types": ["node", "bun-types"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    /* Emit */
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "rootDir": ".",
+    "outDir": "./dist",
+    "removeComments": false,
+    "importHelpers": false,
+    "preserveConstEnums": true,
+    /* Interop Constraints */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    /* Skip Lib Check */
+    "skipLibCheck": true,
+    /* Type Checking */
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "useUnknownInCatchVariables": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "exactOptionalPropertyTypes": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+    /* Completeness */
+    "isolatedModules": true,
+    /* Path Mapping */
+    "paths": {
+      "@domain/*": ["./src/domain/*"],
+      "@application/*": ["./src/application/*"],
+      "@infrastructure/*": ["./src/infrastructure/*"],
+      "@api/*": ["./src/api/*"],
+      "@config/*": ["./src/config/*"],
+      "@bootstrap/*": ["./src/bootstrap/*"],
+      "@/*": ["./src/*"],
+    },
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts"],
+  "ts-node": {
+    "esm": true,
+    "experimentalEsm": true,
+  },
+}

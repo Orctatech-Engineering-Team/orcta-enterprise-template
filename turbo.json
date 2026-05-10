@@ -1,0 +1,48 @@
+{
+    "$schema": "https://turborepo.dev/schema.json",
+    "globalDependencies": [
+        "**/.env.*local"
+    ],
+    "tasks": {
+        "build": {
+            "dependsOn": [
+                "^build"
+            ],
+            "outputs": [
+                "dist/**"
+            ],
+            "cache": false
+        },
+        "test": {
+            "outputs": [
+                "coverage/**"
+            ],
+            "cache": false
+        },
+        "check-types": {
+            "cache": false
+        },
+        "type-check": {
+            "cache": false
+        },
+        "lint": {
+            "cache": false
+        },
+        "format": {
+            "cache": false
+        },
+        "dev": {
+            "cache": false,
+            "persistent": true
+        },
+        "db:generate": {
+            "outputs": [
+                "drizzle/**"
+            ],
+            "cache": false
+        },
+        "db:migrate": {
+            "cache": false
+        }
+    }
+}

@@ -1,0 +1,41 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: orcta-template-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: orcta_template
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d orcta_template"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: orcta-template-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://user:password@postgres:5432/orcta_template
+      NODE_ENV: development
+      API_KEYS: sk-dev
+      DEPLOYMENT_ID: docker-dev
+      SERVICE_VERSION: 1.0.0
+      LOG_SUCCESS_SAMPLE_RATE: "1"
+      SLOW_REQUEST_THRESHOLD_MS: "1200"
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:

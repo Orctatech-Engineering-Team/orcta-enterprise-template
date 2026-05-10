@@ -1,0 +1,22 @@
+{
+    "name": "orcta-enterprise-template",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "build": "turbo run build",
+        "dev": "turbo run dev",
+        "test": "turbo run test",
+        "type-check": "turbo run type-check",
+        "check-types": "turbo run check-types",
+        "lint": "turbo run lint",
+        "format": "turbo run format"
+    },
+    "workspaces": [
+        "apps/*",
+        "packages/*"
+    ],
+    "packageManager": "pnpm@10.0.0",
+    "devDependencies": {
+        "turbo": "^2.9.6"
+    }
+}
