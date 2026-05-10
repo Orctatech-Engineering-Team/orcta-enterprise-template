@@ -9,7 +9,8 @@
         "type-check": "turbo run type-check",
         "check-types": "turbo run check-types",
         "lint": "turbo run lint",
-        "format": "turbo run format"
+        "format": "turbo run format",
+        "generate": "bun run tools/generate/index.ts"
     },
     "workspaces": [
         "apps/*",
@@ -17,6 +18,8 @@
     ],
     "packageManager": "pnpm@10.0.0",
     "devDependencies": {
+        "@types/inquirer": "^9.0.9",
+        "inquirer": "^13.4.3",
         "turbo": "^2.9.6"
     }
 }
