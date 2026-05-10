@@ -91,4 +91,4 @@ pnpm type-check       # Explicit type checking
 
 ## License
 
-MIT
+Proprietary — All Rights Reserved. See LICENSE file for details.
