@@ -1,19 +1,19 @@
 import type { ErrorHandler } from "hono";
-import { getRequestId } from "@api/http/request-context";
+import { error } from "@api/http/response";
 import { enrichHttpRequestEvent } from "@infrastructure/logging/http-event";
 
 export function createErrorHandler(): ErrorHandler {
-  return (error, c) => {
-    const message = error instanceof Error ? error.message : "Unexpected error";
+  return (err, c) => {
+    const message = err instanceof Error ? err.message : "Unexpected error";
 
     enrichHttpRequestEvent(c, {
       error: {
-        kind: error instanceof Error ? error.name : typeof error,
+        kind: err instanceof Error ? err.name : typeof err,
         message,
-        stack: error instanceof Error ? error.stack : undefined,
+        stack: err instanceof Error ? err.stack : undefined,
       },
     });
 
-    return c.json({ error: "INTERNAL_SERVER_ERROR", message, requestId: getRequestId(c) }, 500);
+    return error(c, "INTERNAL_SERVER_ERROR", message, 500);
   };
 }

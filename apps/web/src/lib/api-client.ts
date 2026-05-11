@@ -16,7 +16,8 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     const error = await response.json().catch(() => ({ message: 'Request failed' }));
     throw new Error(error.message || `HTTP ${response.status}`);
   }
-  return response.json();
+  const body = await response.json();
+  return body.data as T;
 }
 
 export const tasksApi = {

@@ -9,8 +9,8 @@ import { createRequestLoggingMiddleware } from "@api/http/middleware/logging";
 import { requestIdMiddleware } from "@api/http/middleware/request-id";
 import { createDomainEventContextMiddleware } from "@api/http/middleware/domain-event-context";
 import { createOpenApiSpec, createDocsHtml } from "@api/http/openapi";
-import { getRequestId } from "@api/http/request-context";
 import { enrichHttpRequestEvent } from "@infrastructure/logging/http-event";
+import { error } from "@api/http/response";
 import type { AppLogger } from "@infrastructure/logging/logger";
 
 export function createHttpApp(container: AppContainer, config: AppConfig, logger: AppLogger): Hono {
@@ -31,21 +31,10 @@ export function createHttpApp(container: AppContainer, config: AppConfig, logger
   app.notFound((c) => {
     enrichHttpRequestEvent(c, {
       operation: `${c.req.method} ${c.req.path}`,
-      error: {
-        kind: "not_found",
-        code: "NOT_FOUND",
-        message: `${c.req.method} ${c.req.path} was not found`,
-      },
+      error: { kind: "not_found", code: "NOT_FOUND", message: `${c.req.method} ${c.req.path} was not found` },
     });
 
-    return c.json(
-      {
-        error: "NOT_FOUND",
-        message: `${c.req.method} ${c.req.path} was not found`,
-        requestId: getRequestId(c),
-      },
-      404,
-    );
+    return error(c, "NOT_FOUND", `${c.req.method} ${c.req.path} was not found`, 404);
   });
 
   app.get("/health", (c) => c.json({ ok: true }, 200));
@@ -53,6 +42,8 @@ export function createHttpApp(container: AppContainer, config: AppConfig, logger
   app.get("/docs", (c) => c.html(createDocsHtml(), 200));
 
   registerTaskRoutes(app, container.taskController);
+
+  app.route("/", container.tags.router);
 
   return app;
 }

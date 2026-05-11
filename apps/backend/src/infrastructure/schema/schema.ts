@@ -35,6 +35,14 @@ export const tasks = pgTable(
   ],
 );
 
+export const tags = pgTable("tags", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  name: text("name").notNull(),
+  color: varchar("color", { length: 7 }).notNull().default("#6366f1"),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
+});
+
 export const outboxEvents = pgTable(
   "outbox_events",
   {
@@ -59,6 +67,7 @@ export const outboxEvents = pgTable(
 
 export const schema = {
   tasks,
+  tags,
   outboxEvents,
 } as const;
 

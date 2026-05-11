@@ -8,7 +8,7 @@ export type EntityRepositoryConfig = {
 export abstract class EntityRepository<TEntity, TRow extends Record<string, unknown>> {
   protected table: any;
   protected db: DbClient;
-  private idColumn: string;
+  protected idColumn: string;
 
   constructor(table: any, db: DbClient, config: EntityRepositoryConfig = {}) {
     this.table = table;
